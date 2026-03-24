@@ -120,27 +120,41 @@ export default function LoginPage() {
     };
   }, []);
 
-  
+
 //handle login
 const handleLogin = async () => {
   try {
     const res = await fetch("http://localhost:8080/api/login", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ username, password }),
     });
 
-    if (res.ok) {
-      const data = await res.text();
-      alert(data); // "Login Success"
-    } else {
-      alert("Invalid credentials");
+    if (!res.ok) {
+      alert("Login failed");
+      return;
     }
+
+    const role = await res.text();
+
+    // redirect based on role
+    if (role === "admin") {
+      window.location.href = "/components/admindashboard";
+    } else if (role === "manager") {
+      window.location.href = "/managerdashboard";
+    } else if (role === "cashier") {
+      window.location.href = "/cashierdashboard";
+    }
+
   } catch (err) {
     console.error(err);
-    alert("Error connecting to server");
+    alert("Server error");
   }
 };
+
+
   return (
     <div className="login-container">
       <canvas ref={canvasRef}></canvas>
