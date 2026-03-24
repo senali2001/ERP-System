@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useState } from "react";
 import "./login.css";
 
 export default function LoginPage() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -117,16 +120,46 @@ export default function LoginPage() {
     };
   }, []);
 
+  
+//handle login
+const handleLogin = async () => {
+  try {
+    const res = await fetch("http://localhost:8080/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (res.ok) {
+      const data = await res.text();
+      alert(data); // "Login Success"
+    } else {
+      alert("Invalid credentials");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error connecting to server");
+  }
+};
   return (
     <div className="login-container">
       <canvas ref={canvasRef}></canvas>
     
 
       <div className="login-box">
-        <h2>Login</h2>
-        <input type="text" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <button>Sign In</button>
+        <h2>LOGIN</h2>
+        <input type="text" 
+        placeholder="username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)} 
+         />
+        <input type="password" 
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)} 
+         />
+        <br/><br/>
+        <button onClick={handleLogin}>Sign In</button>
       </div>
     </div>
   );

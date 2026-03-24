@@ -38,21 +38,25 @@ canvas {
 
 .login-box {
   position: fixed;
-  bottom: 80px;
+  
+  top: 40%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
   background: rgba(0, 0, 0, 0.7);
+  opacity: 0.6;
   padding: 30px;
   border-radius: 14px;
   backdrop-filter: blur(12px);
-  width: 320px;
+  width: 26vw;
+  height: 30vh;
   text-align: center;
   border: 1px solid rgba(0, 255, 204, 0.3);
 }
 
 .login-box h2 {
   margin-bottom: 20px;
+  font-size: xx-large;
 }
 
 .login-box input {
