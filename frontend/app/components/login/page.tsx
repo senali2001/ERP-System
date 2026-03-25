@@ -141,7 +141,7 @@ const handleLogin = async () => {
 
     // redirect based on role
     if (role === "admin") {
-      window.location.href = "/components/admindashboard";
+      window.location.href = "/admindashboard";
     } else if (role === "manager") {
       window.location.href = "/managerdashboard";
     } else if (role === "cashier") {
