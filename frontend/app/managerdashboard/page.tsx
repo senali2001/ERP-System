@@ -1,11 +1,11 @@
 'use client'
 import {
-  AreaChart, Area, XAxis, YAxis,
+  AreaChart, Area, BarChart, Bar, XAxis, YAxis,
   CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell
 } from 'recharts'
 import {
   ShoppingCart, DollarSign, Users, Package,
-  Clock,
+  TrendingUp, Clock, CheckCircle, AlertCircle, MoreHorizontal
 } from 'lucide-react'
 import StatCard from './StatCard'
 
@@ -49,19 +49,7 @@ const statusColors: Record<string, string> = {
   Pending: '#f59e0b',
 }
 
-type TooltipRow = {
-  dataKey?: string | number
-  color?: string
-  value?: number
-}
-
-type CustomTooltipProps = {
-  active?: boolean
-  payload?: TooltipRow[]
-  label?: string
-}
-
-const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload?.length) {
     return (
       <div style={{
@@ -72,11 +60,9 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
         fontSize: 12,
       }}>
         <div style={{ color: 'var(--text-muted)', marginBottom: 6 }}>{label}</div>
-        {payload.map((p) => (
-          <div key={String(p.dataKey)} style={{ color: p.color, fontWeight: 600 }}>
-            {p.dataKey === 'revenue'
-              ? `$${(p.value ?? 0).toLocaleString()}`
-              : `${p.value ?? 0} orders`}
+        {payload.map((p: any) => (
+          <div key={p.dataKey} style={{ color: p.color, fontWeight: 600 }}>
+            {p.dataKey === 'revenue' ? `$${p.value.toLocaleString()}` : `${p.value} orders`}
           </div>
         ))}
       </div>
