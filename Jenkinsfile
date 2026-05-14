@@ -25,15 +25,6 @@ pipeline {
             }
         }
 
-        stage('Frontend install &build') {
-            steps {
-                dir('frontend') {
-                    bat 'npm install'
-                    bat 'npm run build'
-                }
-            }
-        }
-
         stage('Docker Build') {
             steps {
                 bat 'docker compose build'
