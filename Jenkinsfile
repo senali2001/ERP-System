@@ -30,7 +30,6 @@ pipeline {
                 bat 'docker compose build'
             }
         }
-
         stage('Run System') {
             steps {
                 bat 'docker compose up -d'
