@@ -10,9 +10,10 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const canvasElement = canvasRef.current;
+    if (!canvasElement) return;
 
+    const canvas = canvasElement;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -50,8 +51,11 @@ export default function LoginPage() {
       canvas.style.width = width + "px";
       canvas.style.height = height + "px";
 
-      ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform
-      ctx.scale(dpr, dpr);
+      const context = canvas.getContext("2d");
+      if (!context) return;
+
+      context.setTransform(1, 0, 0, 1, 0, 0); // reset transform
+      context.scale(dpr, dpr);
 
       initGrid();
     }
@@ -75,7 +79,10 @@ export default function LoginPage() {
 
     // 🔹 Draw the grid
     function drawGrid() {
-      ctx.clearRect(0, 0, width, height);
+      const context = canvas.getContext("2d");
+      if (!context) return;
+
+      context.clearRect(0, 0, width, height);
 
       const now = Date.now();
       grid.forEach((cell) => {
@@ -95,13 +102,13 @@ export default function LoginPage() {
           const cx = cell.x + squareSize / 2;
           const cy = cell.y + squareSize / 2;
 
-          const gradient = ctx.createRadialGradient(cx, cy, 5, cx, cy, squareSize);
+          const gradient = context.createRadialGradient(cx, cy, 5, cx, cy, squareSize);
           gradient.addColorStop(0, `rgba(0,255,204,${cell.alpha})`);
           gradient.addColorStop(1, `rgba(0,255,204,0)`);
 
-          ctx.strokeStyle = gradient;
-          ctx.lineWidth = 1.3;
-          ctx.strokeRect(cell.x + 0.5, cell.y + 0.5, squareSize - 1, squareSize - 1);
+          context.strokeStyle = gradient;
+          context.lineWidth = 1.3;
+          context.strokeRect(cell.x + 0.5, cell.y + 0.5, squareSize - 1, squareSize - 1);
         }
       });
 
