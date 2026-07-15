@@ -1,32 +1,46 @@
 'use client'
+import { useState, useEffect } from 'react'
+import './admin.css'
+import Sidebar from './Sidebar'
+import AdminHeader from './Header'
 
-   
-import Header from './Header'
-import Slidebar from './Slidebar'   
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const [collapsed, setCollapsed] = useState(false)
 
+  useEffect(() => {
+    const saved = localStorage.getItem('smartstore-sidebar')
+    if (saved === 'collapsed') setCollapsed(true)
+  }, [])
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+  const toggleSidebar = () => {
+    setCollapsed(prev => {
+      const next = !prev
+      localStorage.setItem('smartstore-sidebar', next ? 'collapsed' : 'expanded')
+      return next
+    })
+  }
+
+  const sidebarW = collapsed ? 72 : 260
+
   return (
-    <div style={{ display: 'flex' }}>
-      
-      {/* Sidebar */}
-      <Slidebar />
+    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-primary)' }}>
+      <Sidebar collapsed={collapsed} onToggle={toggleSidebar} />
 
-      {/* Main content */}
-      <div style={{ marginLeft: '240px', width: '100%' }}>
-        
-        {/* Header */}
-        <Header />
+      <div
+        style={{
+          marginLeft: sidebarW,
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          minWidth: 0,
+          transition: 'margin-left 0.25s ease',
+        }}
+      >
+        <AdminHeader sidebarCollapsed={collapsed} onMenuClick={toggleSidebar} />
 
-        {/* Page content */}
-        <main style={{ padding: '20px' }}>
+        <main style={{ flex: 1, padding: '24px', overflowX: 'hidden' }}>
           {children}
         </main>
-
       </div>
     </div>
   )
