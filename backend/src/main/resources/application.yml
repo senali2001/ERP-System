@@ -5,6 +5,11 @@ spring:
     password: senali2001
     driver-class-name: org.postgresql.Driver
 
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Colombo
 
   jpa:
     hibernate:
